@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  chassis:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2021-07-21T11:52:29.843809257Z"
+    description: A Helm chart for Kubernetes
+    digest: 1faa7a4e37f1a45e0491891beb834ab7d8600b22321c8d2736e005c3dba1f693
+    name: chassis
+    type: application
+    urls:
+    - https://mlopsworks.github.io/containerizer/chassis-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-07-21T11:52:29.841929651Z"
