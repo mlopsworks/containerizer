@@ -1,0 +1,830 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../images/chassis-symbol.png">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.11">
+    
+    
+      
+        <title>How a Data Scientist connects to chassis and builds a model - Chassis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.3754935a.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-a-data-scientist-connects-to-chassis-and-builds-a-model" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="Chassis" class="md-header__button md-logo" aria-label="Chassis" data-md-component="logo">
+      
+  <img src="../images/chassis-symbol.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Chassis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              How a Data Scientist connects to chassis and builds a model
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/modzy/chassis/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    modzy/chassis
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Chassis" class="md-nav__button md-logo" aria-label="Chassis" data-md-component="logo">
+      
+  <img src="../images/chassis-symbol.png" alt="logo">
+
+    </a>
+    Chassis
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/modzy/chassis/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    modzy/chassis
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        Containerizing your models easily
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Tutorials
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="devops-deploy.html" class="md-nav__link">
+        How a DevOps person would deploy Chassis
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          How a Data Scientist connects to chassis and builds a model
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="ds-connect.html" class="md-nav__link md-nav__link--active">
+        How a Data Scientist connects to chassis and builds a model
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-the-sdk" class="md-nav__link">
+    Install the SDK
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-or-import-the-model" class="md-nav__link">
+    Build or import the model
+  </a>
+  
+    <nav class="md-nav" aria-label="Build or import the model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#import-required-libraries" class="md-nav__link">
+    Import required libraries
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-model" class="md-nav__link">
+    Create the model
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transform-the-model-to-mlflow" class="md-nav__link">
+    Transform the model to MLFlow
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-the-image" class="md-nav__link">
+    Build the image
+  </a>
+  
+    <nav class="md-nav" aria-label="Build the image">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#define-data" class="md-nav__link">
+    Define data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make-the-request" class="md-nav__link">
+    Make the request
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-the-job-status" class="md-nav__link">
+    Check the job status
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pull-the-image" class="md-nav__link">
+    Pull the image
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ds-deploy.html" class="md-nav__link">
+        How a Data Scientist deploys to KFServing
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../help.html" class="md-nav__link">
+        Help
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../get-involved.html" class="md-nav__link">
+        Get Involved
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../release-notes.html" class="md-nav__link">
+        Release Notes
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faqs.html" class="md-nav__link">
+        FAQs
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-the-sdk" class="md-nav__link">
+    Install the SDK
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-or-import-the-model" class="md-nav__link">
+    Build or import the model
+  </a>
+  
+    <nav class="md-nav" aria-label="Build or import the model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#import-required-libraries" class="md-nav__link">
+    Import required libraries
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-model" class="md-nav__link">
+    Create the model
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transform-the-model-to-mlflow" class="md-nav__link">
+    Transform the model to MLFlow
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-the-image" class="md-nav__link">
+    Build the image
+  </a>
+  
+    <nav class="md-nav" aria-label="Build the image">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#define-data" class="md-nav__link">
+    Define data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make-the-request" class="md-nav__link">
+    Make the request
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-the-job-status" class="md-nav__link">
+    Check the job status
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pull-the-image" class="md-nav__link">
+    Pull the image
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/modzy/chassis/edit/main/docs/docs/tutorials/ds-connect.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="how-a-data-scientist-connects-to-chassis-and-builds-a-model">How a Data Scientist connects to chassis and builds a model</h1>
+<p>In order to connect to <code>Chassis</code> service we are going to use the SDK. We will transform our model into MLFlow format and we will upload it by making a request. After that, the image that have been created will be uploaded to Docker Hub and we will be able to use it.</p>
+<h2 id="install-the-sdk">Install the SDK</h2>
+<p>First step is to install the SDK using <code>pip</code>.</p>
+<div class="highlight"><pre><span></span><code>pip install chassisml
+</code></pre></div>
+<h2 id="build-or-import-the-model">Build or import the model</h2>
+<p>We can start from an existing model or create a new one. After that, we will need to transform it to MLFlow format so <code>Chassis</code> service will be able to manage it.</p>
+<h3 id="import-required-libraries">Import required libraries</h3>
+<p>Since we are going to train our own model as an example, we need to import all the libraries that we will need to do that.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">chassisml</span>
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">import</span> <span class="nn">mlflow.pyfunc</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">dump</span><span class="p">,</span> <span class="n">load</span>
+</code></pre></div>
+<h3 id="create-the-model">Create the model</h3>
+<p>Just as an example we are going to create and train a simple SKLearn model.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">svm</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">digits</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_digits</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">images</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># Create a classifier: a support vector classifier</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+<span class="c1"># Split data into 50% train and 50% test subsets</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Learn the digits on the train subset</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">dump</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="s1">&#39;./model.joblib&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="transform-the-model-to-mlflow">Transform the model to MLFlow</h2>
+<p>Once that we have our model we transform it to MLFlow format.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">CustomModel</span><span class="p">(</span><span class="n">mlflow</span><span class="o">.</span><span class="n">pyfunc</span><span class="o">.</span><span class="n">PythonModel</span><span class="p">):</span>
+    <span class="n">_model</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s1">&#39;./model.joblib&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="n">processed_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_process</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">inference_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">processed_inputs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_process</span><span class="p">(</span><span class="n">inference_results</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pre_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">inputs</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inference_results</span><span class="p">):</span>
+        <span class="n">structured_results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">inference_result</span> <span class="ow">in</span> <span class="n">inference_results</span><span class="p">:</span>
+            <span class="n">inference_result</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;classPredictions&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">inference_result</span><span class="p">),</span> <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1</span><span class="p">)}</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+            <span class="n">structured_output</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;result&#39;</span><span class="p">:</span> <span class="n">inference_result</span><span class="p">,</span>
+                    <span class="s1">&#39;explanation&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="s1">&#39;drift&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="n">structured_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">structured_output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">structured_results</span>
+</code></pre></div>
+<p>Notice that the SKLearn model that we created before is loaded into memory so that it will be packaged inside the MLFlow model. This way, in the <code>load_context</code> function we just need to point to the model that is already loaded in memory.</p>
+<p>All other functions like <code>predict</code>, <code>pre_process</code> or <code>post_process</code> are completely up to you and the requirements of your model.</p>
+<p>This is the conda environment that we are going to define in this case for our model.</p>
+<div class="highlight"><pre><span></span><code><span class="n">conda_env</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;channels&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;defaults&#39;</span><span class="p">,</span> <span class="s1">&#39;conda-forge&#39;</span><span class="p">,</span> <span class="s1">&#39;pytorch&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;dependencies&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;python=3.8.5&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pytorch&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;torchvision&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pip&#39;</span><span class="p">,</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;pip&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s1">&#39;mlflow&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;lime&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;sklearn&#39;</span>
+            <span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;linear_env&#39;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Finally we just save the MLFlow model in the directory we prefer.</p>
+<div class="highlight"><pre><span></span><code><span class="n">model_save_path</span> <span class="o">=</span> <span class="s1">&#39;mlflow_custom_pyfunc_svm&#39;</span>
+
+<span class="n">mlflow</span><span class="o">.</span><span class="n">pyfunc</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span>
+    <span class="n">path</span><span class="o">=</span><span class="n">model_save_path</span><span class="p">,</span>
+    <span class="n">python_model</span><span class="o">=</span><span class="n">CustomModel</span><span class="p">(),</span>
+    <span class="n">conda_env</span><span class="o">=</span><span class="n">conda_env</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="build-the-image">Build the image</h2>
+<p>Now that we have our model in MLFlow format we need to make a request against the <code>Chassis</code> service to build the Docker image that exposes it.</p>
+<h3 id="define-data">Define data</h3>
+<p>There is some model and image related data that we need to define before we send our model to <code>Chassis</code>.</p>
+<p>In case we want <code>Chassis</code> to upload our image to Docker Hub we can pass the credentials in base64 format.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span> -n <span class="s2">&quot;&lt;user&gt;:&lt;password&gt;&quot;</span> <span class="p">|</span> base64
+</code></pre></div>
+<p>Which we are going to asume that outputs <code>XxXxXxXx</code>.</p>
+<p>This is an example of the data that we could use.</p>
+<div class="highlight"><pre><span></span><code><span class="n">image_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;user&gt;/chassisml-sklearn-demo:latest&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;model_name&#39;</span><span class="p">:</span> <span class="s1">&#39;digits&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;model_path&#39;</span><span class="p">:</span> <span class="s1">&#39;./mlflow_custom_pyfunc_svm&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;registry_auth&#39;</span><span class="p">:</span> <span class="s1">&#39;XxXxXxXx&#39;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>As we can see, we must define the following fields:</p>
+<ul>
+<li><code>name</code>: tag of the image</li>
+<li><code>model_name</code>: name of the model we trained before</li>
+<li><code>model_path</code>: the directory where we have stored our MLFlow model</li>
+<li><code>registry_path</code>: credentials in case we want to upload the image</li>
+</ul>
+<h3 id="make-the-request">Make the request</h3>
+<p>Now we can make the request to let <code>Chassis</code> build our image by making a request.</p>
+<p>We can decide if we want <code>Chassis</code> to upload the image to Docker Hub and we can also modify the address of the service.</p>
+<div class="highlight"><pre><span></span><code><span class="n">res</span> <span class="o">=</span> <span class="n">chassisml</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
+    <span class="n">image_data</span><span class="o">=</span><span class="n">image_data</span><span class="p">,</span>
+    <span class="n">deploy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1"># True if we want Chassis to upload the image</span>
+    <span class="n">base_url</span><span class="o">=</span><span class="s1">&#39;http://localhost:5000&#39;</span>
+<span class="p">)</span>
+
+<span class="n">error</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span>
+<span class="n">job_id</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;job_id&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error:&#39;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Job ID:&#39;</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
+</code></pre></div>
+<p>If everything has gone well we should see something similar to this.</p>
+<div class="highlight"><pre><span></span><code>Publishing container... Ok!
+Job ID: chassis-builder-job-a3864869-a509-4658-986b-25cb4ddd604d
+</code></pre></div>
+<h3 id="check-the-job-status">Check the job status</h3>
+<p>As we have seen, we have been assigned to an uid that we can use to check the status of the job that is building our image.</p>
+<div class="highlight"><pre><span></span><code><span class="n">chassisml</span><span class="o">.</span><span class="n">get_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+</code></pre></div>
+<p>And we should see something like this in case the job has not finished yet.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="err">&#39;ac</span><span class="kc">t</span><span class="err">ive&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+ <span class="err">&#39;comple</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">_</span><span class="kc">t</span><span class="err">ime&#39;</span><span class="p">:</span> <span class="err">No</span><span class="kc">ne</span><span class="p">,</span>
+ <span class="err">&#39;co</span><span class="kc">n</span><span class="err">di</span><span class="kc">t</span><span class="err">io</span><span class="kc">ns</span><span class="err">&#39;</span><span class="p">:</span> <span class="err">No</span><span class="kc">ne</span><span class="p">,</span>
+ <span class="err">&#39;</span><span class="kc">fa</span><span class="err">iled&#39;</span><span class="p">:</span> <span class="err">No</span><span class="kc">ne</span><span class="p">,</span>
+ <span class="err">&#39;s</span><span class="kc">tart</span><span class="err">_</span><span class="kc">t</span><span class="err">ime&#39;</span><span class="p">:</span> <span class="err">&#39;Fri</span><span class="p">,</span> <span class="mi">09</span> <span class="err">Jul</span> <span class="mi">2021</span> <span class="mi">09</span><span class="p">:</span><span class="mi">01</span><span class="p">:</span><span class="mi">43</span> <span class="err">GMT&#39;</span><span class="p">,</span>
+ <span class="err">&#39;succeeded&#39;</span><span class="p">:</span> <span class="err">No</span><span class="kc">ne</span><span class="p">}</span>
+</code></pre></div>
+<p>On the other hand, if the job has already finished and our image has been correctly built this could be the output.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="err">&#39;ac</span><span class="kc">t</span><span class="err">ive&#39;</span><span class="p">:</span> <span class="err">No</span><span class="kc">ne</span><span class="p">,</span>
+ <span class="err">&#39;comple</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">_</span><span class="kc">t</span><span class="err">ime&#39;</span><span class="p">:</span> <span class="err">&#39;Fri</span><span class="p">,</span> <span class="mi">09</span> <span class="err">Jul</span> <span class="mi">2021</span> <span class="mi">09</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">37</span> <span class="err">GMT&#39;</span><span class="p">,</span>
+ <span class="err">&#39;co</span><span class="kc">n</span><span class="err">di</span><span class="kc">t</span><span class="err">io</span><span class="kc">ns</span><span class="err">&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="err">&#39;las</span><span class="kc">t</span><span class="err">_probe_</span><span class="kc">t</span><span class="err">ime&#39;</span><span class="p">:</span> <span class="err">&#39;Fri</span><span class="p">,</span> <span class="mi">09</span> <span class="err">Jul</span> <span class="mi">2021</span> <span class="mi">09</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">37</span> <span class="err">GMT&#39;</span><span class="p">,</span>
+   <span class="err">&#39;las</span><span class="kc">t</span><span class="err">_</span><span class="kc">trans</span><span class="err">i</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">_</span><span class="kc">t</span><span class="err">ime&#39;</span><span class="p">:</span> <span class="err">&#39;Fri</span><span class="p">,</span> <span class="mi">09</span> <span class="err">Jul</span> <span class="mi">2021</span> <span class="mi">09</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">37</span> <span class="err">GMT&#39;</span><span class="p">,</span>
+   <span class="err">&#39;message&#39;</span><span class="p">:</span> <span class="err">No</span><span class="kc">ne</span><span class="p">,</span>
+   <span class="err">&#39;reaso</span><span class="kc">n</span><span class="err">&#39;</span><span class="p">:</span> <span class="err">No</span><span class="kc">ne</span><span class="p">,</span>
+   <span class="err">&#39;s</span><span class="kc">tatus</span><span class="err">&#39;</span><span class="p">:</span> <span class="err">&#39;True&#39;</span><span class="p">,</span>
+   <span class="err">&#39;</span><span class="kc">t</span><span class="err">ype&#39;</span><span class="p">:</span> <span class="err">&#39;Comple</span><span class="kc">te</span><span class="err">&#39;</span><span class="p">}],</span>
+ <span class="err">&#39;</span><span class="kc">fa</span><span class="err">iled&#39;</span><span class="p">:</span> <span class="err">No</span><span class="kc">ne</span><span class="p">,</span>
+ <span class="err">&#39;s</span><span class="kc">tart</span><span class="err">_</span><span class="kc">t</span><span class="err">ime&#39;</span><span class="p">:</span> <span class="err">&#39;Fri</span><span class="p">,</span> <span class="mi">09</span> <span class="err">Jul</span> <span class="mi">2021</span> <span class="mi">09</span><span class="p">:</span><span class="mi">01</span><span class="p">:</span><span class="mi">43</span> <span class="err">GMT&#39;</span><span class="p">,</span>
+ <span class="err">&#39;succeeded&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+</code></pre></div>
+<h2 id="pull-the-image">Pull the image</h2>
+<p>Now that the process has completely finished we can pull and see our built image.</p>
+<div class="highlight"><pre><span></span><code>docker pull &lt;user&gt;/chassisml-sklearn-demo:latest
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>docker images &lt;user&gt;/chassisml-sklearn-demo:latest
+</code></pre></div>
+<p>If everything has gone as expected we will see something similar to this.</p>
+<div class="highlight"><pre><span></span><code>REPOSITORY                        TAG       IMAGE ID       CREATED         SIZE
+&lt;user&gt;/chassisml-sklearn-demo     latest    0e5c5815f2ec   <span class="m">3</span> minutes ago   <span class="m">2</span>.19GB
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="devops-deploy.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: How a DevOps person would deploy Chassis" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              How a DevOps person would deploy Chassis
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="ds-deploy.html" class="md-footer__link md-footer__link--next" aria-label="Next: How a Data Scientist deploys to KFServing" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              How a Data Scientist deploys to KFServing
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.expand"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.477d984a.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.ddd52ceb.min.js"></script>
+      
+    
+  </body>
+</html>
